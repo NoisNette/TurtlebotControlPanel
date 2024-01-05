@@ -1,0 +1,9 @@
+<library path="turtlebot_control_panel">
+    <class name="turtlebot_control_panel/TurtlebotControlPanel"
+            type="turtlebot_control_panel::TurtlebotControlPanel"
+            base_class_type="rviz_common::Panel">
+        <description>
+        Adds a control panel for Turtlebot3.
+        </description>
+    </class>
+</library>
