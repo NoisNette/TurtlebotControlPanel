@@ -1,7 +1,7 @@
 #include "turtlebot_control_panel/info_section.hpp"
 
 namespace turtlebot_control_panel {
-    InfoSection::InfoSection(QWidget *parent) : QGroupBox("Info", parent) {
+    InfoSection::InfoSection(QWidget *parent) : QGroupBox("ℹ️ | Info", parent) {
         QVBoxLayout* layout = new QVBoxLayout;
 
         cmdVelLabel_ = new QLabel("/cmd_vel : None");

@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace turtlebot_control_panel {
-    LocalizationSection::LocalizationSection(QWidget *parent) : QGroupBox("Localization", parent) {
+    LocalizationSection::LocalizationSection(QWidget *parent) : QGroupBox("🗺️ | Localization", parent) {
         QVBoxLayout* layout = new QVBoxLayout;
 
         QHBoxLayout* startStopLayout = new QHBoxLayout;
