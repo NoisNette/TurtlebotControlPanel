@@ -25,7 +25,7 @@ set(${PROJECT_NAME}_headers_to_moc
   include/${PROJECT_NAME}/localization_section.hpp
   include/${PROJECT_NAME}/info_section.hpp
   include/${PROJECT_NAME}/teleop_section.hpp
-  include/${PROJECT_NAME}/cmd_vel_subscriber_node.hpp
+  # include/${PROJECT_NAME}/cmd_vel_subscriber_node.hpp
 )
 
 foreach(header "${${PROJECT_NAME}_headers_to_moc}")
@@ -38,6 +38,7 @@ set(${PROJECT_NAME}_source_files
   src/info_section.cpp
   src/teleop_section.cpp
   src/cmd_vel_subscriber_node.cpp
+  # src/node_runner.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED
@@ -60,10 +61,12 @@ ament_export_dependencies(
 )
 
 add_executable(cmd_vel_subscriber_node src/cmd_vel_subscriber_node.cpp)
+# add_executable(node_runner src/node_runner.cpp)
 
 # Link ament packages
 ament_target_dependencies(${PROJECT_NAME} rclcpp rviz_common rviz_rendering geometry_msgs)
-ament_target_dependencies(cmd_vel_subscriber_node rclcpp geometry_msgs)
+# ament_target_dependencies(node_runner rclcpp rviz_common)
+ament_target_dependencies(cmd_vel_subscriber_node rclcpp rviz_common geometry_msgs)
 
 # Link non ament packages
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
@@ -82,6 +85,10 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME}/
 )
+
+# install(TARGETS node_runner
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 install(TARGETS cmd_vel_subscriber_node
   DESTINATION lib/${PROJECT_NAME}

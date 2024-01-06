@@ -7,7 +7,7 @@
 
 #include "turtlebot_control_panel/dummy_node.hpp"
 // #include "turtlebot_control_panel/cmd_vel_subscriber_node.hpp"
-#include "/home/david/rviz2_ws/src/turtlebot_control_panel/include/turtlebot_control_panel/cmd_vel_subscriber_node.hpp"
+// #include "/home/david/rviz2_ws/src/turtlebot_control_panel/include/turtlebot_control_panel/cmd_vel_subscriber_node.hpp"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -21,6 +21,7 @@ namespace turtlebot_control_panel {
     Q_OBJECT
     public:
       InfoSection(QWidget *parent = 0);
+      void updateCmdVel_();
 
     private:
       std::shared_ptr<DummyNode> dummy_node_;

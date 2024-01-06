@@ -19,11 +19,26 @@ namespace turtlebot_control_panel {
         layout->addWidget(cmdVelLabel_);
 
         setLayout(layout);
+
+        // auto rviz_ros_node = parent->getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();  
+        // cmd_vel_sub_ = rviz_ros_node->create_subscription<geometry_msgs::msg::Twist>(
+        //     "/cmd_vel",
+        //     rclcpp::SystemDefaultsQoS(),  
+        //     std::bind(&InfoSection::cmdVelCallback_, this, _1)
+        // );  
+    }
+
+    void InfoSection::updateCmdVel_() {
+        // auto x = msg.linear.x;
+        // std::string out = "/cmd_vel : " + std::to_string(x);
+        // QString* labelText = new QString(out);
+        // cmdVelLabel_->setText(labelText);
+        cmdVelLabel_->setText(QString("test"));
     }
 
     void InfoSection::cmdVelCallback_(const geometry_msgs::msg::Twist & msg) const {
-        // RCLCPP_INFO(dummy_node_->get_logger(), "Recieved - Linear Velocity : '%f', Angular Velocity : '%f'", msg->linear.x, msg->angular.z);
-        RCLCPP_INFO(dummy_node_->get_logger(), "Got something...");
+        RCLCPP_INFO(dummy_node_->get_logger(), "Recieved - Linear Velocity : '%f', Angular Velocity : '%f'", msg.linear.x, msg.angular.z);
+        // RCLCPP_INFO(dummy_node_->get_logger(), "Got something...");
         std::cout << "something\n";
     }
 }

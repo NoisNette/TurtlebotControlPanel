@@ -1,4 +1,5 @@
 #include "turtlebot_control_panel/turtlebot_control_panel.hpp"
+#include <iostream>
 
 namespace turtlebot_control_panel {
     TurtlebotControlPanel::TurtlebotControlPanel(QWidget* parent) : rviz_common::Panel(parent) {
@@ -7,8 +8,8 @@ namespace turtlebot_control_panel {
         localizationSection_ = new LocalizationSection(this);
         layout->addWidget(localizationSection_);
 
-        // infoSection_ = new InfoSection(this);
-        // layout->addWidget(infoSection_);
+        infoSection_ = new InfoSection(this);
+        layout->addWidget(infoSection_);
 
         teleopSection_ = new TeleopSection(this);
         layout->addWidget(teleopSection_);
@@ -22,6 +23,19 @@ namespace turtlebot_control_panel {
 
     void TurtlebotControlPanel::load(const rviz_common::Config& config) {
         rviz_common::Panel::load(config);
+    }
+
+    void TurtlebotControlPanel::onInitialize() {
+        auto rviz_ros_node = this->getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();  
+        this->subscription_ = rviz_ros_node->create_subscription<geometry_msgs::msg::Twist>(
+            "/cmd_vel2",
+            1,  
+            std::bind(&TurtlebotControlPanel::subCallback_, this, std::placeholders::_1)
+        );
+    }
+
+    void TurtlebotControlPanel::subCallback_(const geometry_msgs::msg::Twist::SharedPtr msg) const {
+        infoSection_->updateCmdVel_();
     }
 }
 

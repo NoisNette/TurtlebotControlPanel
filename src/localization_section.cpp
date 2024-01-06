@@ -26,7 +26,7 @@ namespace turtlebot_control_panel {
 
     void LocalizationSection::startLocalization_() {
         std::cout << "Start\n";
-        // system("ros2 launch turtlebot3_cartographer cartographer.launch.py");
+        system("ros2 launch turtlebot3_cartographer cartographer.launch.py");
     }
 
     void LocalizationSection::stopLocalization_() {
@@ -36,6 +36,9 @@ namespace turtlebot_control_panel {
     void LocalizationSection::saveMap_() {
         std::cout << "Save\n";
         QString dir = QFileDialog::getExistingDirectory(this, tr("Save Map"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        if (dir == "")
+            return;
+
         std::string command = "ros2 run nav2_map_server map_saver_cli -f " + dir.toStdString() + "/map";
         system(command.c_str());
     }
