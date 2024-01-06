@@ -1,5 +1,4 @@
 #include "turtlebot_control_panel/turtlebot_control_panel.hpp"
-#include <iostream>
 
 namespace turtlebot_control_panel {
     TurtlebotControlPanel::TurtlebotControlPanel(QWidget* parent) : rviz_common::Panel(parent) {
@@ -26,16 +25,13 @@ namespace turtlebot_control_panel {
     }
 
     void TurtlebotControlPanel::onInitialize() {
-        auto rviz_ros_node = this->getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();  
-        this->subscription_ = rviz_ros_node->create_subscription<geometry_msgs::msg::Twist>(
-            "/cmd_vel2",
-            1,  
-            std::bind(&TurtlebotControlPanel::subCallback_, this, std::placeholders::_1)
-        );
-    }
+        auto rviz_ros_node = this->getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();
 
-    void TurtlebotControlPanel::subCallback_(const geometry_msgs::msg::Twist::SharedPtr msg) const {
-        infoSection_->updateCmdVel_();
+        this->cmdVelSubscription_ = rviz_ros_node->create_subscription<geometry_msgs::msg::Twist>(
+            "/cmd_vel",
+            1,
+            [this](const geometry_msgs::msg::Twist::SharedPtr msg) { infoSection_->updateCmdVel_(msg); }
+        );
     }
 }
 
