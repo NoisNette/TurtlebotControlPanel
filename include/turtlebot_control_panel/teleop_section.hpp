@@ -8,11 +8,13 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QString>
 #include <QPushButton>
+#include <QDoubleSpinBox>
 
 using std::placeholders::_1;
 
@@ -23,9 +25,9 @@ namespace turtlebot_control_panel {
       TeleopSection(QWidget *parent = 0);
 
     protected Q_SLOTS:
-      void sendVel();
-      void updateLinearVelocity();
-      void updateAngularVelocity();
+      void sendVel(char dir);
+      void updateLinearVelocity(double value);
+      void updateAngularVelocity(double value);
       void updateTopic();
 
     private:
@@ -35,17 +37,18 @@ namespace turtlebot_control_panel {
       QLineEdit* outputTopicEditor_;
       QString outputTopic_;
 
-      QLineEdit* linearVelocityEditor_;
+      QDoubleSpinBox* linearVelocityEditor_;
+      QDoubleSpinBox* angularVelocityEditor_;
 
-      QLineEdit* angularVelocityEditor_;
-
-      QPushButton* stopButton_;
+      QPushButton* forwardBtn_;
+      QPushButton* backwardBtn_;
+      QPushButton* leftBtn_;
+      QPushButton* rightBtn_;
 
       float linearVelocity_;
       float angularVelocity_;
 
       void setTopic(const QString& topic);
-      void stopButtonCallback_();
   };
 }
 
