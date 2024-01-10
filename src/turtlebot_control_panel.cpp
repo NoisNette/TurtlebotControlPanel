@@ -2,6 +2,7 @@
 
 namespace turtlebot_control_panel {
     TurtlebotControlPanel::TurtlebotControlPanel(QWidget* parent) : rviz_common::Panel(parent) {
+        setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         QVBoxLayout* layout = new QVBoxLayout;
 
         localizationSection_ = new LocalizationSection(this);

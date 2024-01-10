@@ -8,6 +8,7 @@
 
 #include <QVBoxLayout>
 #include <QString>
+#include <QSizePolicy>
 
 #include "turtlebot_control_panel/visibility_control.hpp"
 #include "turtlebot_control_panel/localization_section.hpp"
