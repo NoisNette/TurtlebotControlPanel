@@ -9,6 +9,10 @@
 #include <QGroupBox>
 #include <QFileDialog>
 
+#include <array>
+#include <stdexcept>
+#include <memory>
+
 namespace turtlebot_control_panel {
   class LocalizationSection : public QGroupBox {
     Q_OBJECT

@@ -26,11 +26,36 @@ namespace turtlebot_control_panel {
 
     void LocalizationSection::startLocalization_() {
         std::cout << "Start\n";
-        system("ros2 launch turtlebot3_cartographer cartographer.launch.py");
+        system("ros2 launch turtlebot_control_panel no_rviz.launch.py &");
     }
 
     void LocalizationSection::stopLocalization_() {
         std::cout << "Stop\n";
+        std::array<char, 128> buffer;
+        std::string result;
+        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen("ps -aux | grep turtlebot3_cartographer", "r"), pclose);
+        if (!pipe) {
+            throw std::runtime_error("popen() failed...");
+        }
+        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+            result += buffer.data();
+        }
+
+        int i = 0;
+        bool gotSpace = false;
+        while (!gotSpace && i < (int)result.length()) {
+            i += 1;
+            if (result[i] == ' ')
+                gotSpace = true;
+            else if (gotSpace)
+                break;
+        }
+        // stopLocalizationButton_->setText(std::to_string(i).c_str());
+        
+        int spaceIdx = result.find(" ", i);
+        std::string pid = result.substr(i, i+spaceIdx);
+        int len = (int) result.length();
+        stopLocalizationButton_->setText(std::to_string(len).c_str());
     }
 
     void LocalizationSection::saveMap_() {
