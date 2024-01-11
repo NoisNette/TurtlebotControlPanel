@@ -27,11 +27,6 @@ def generate_launch_description():
             default_value=configuration_basename,
             description='Name of lua file for cartographer'
         ),
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='false',
-            description='Use simulation (Gazebo) clock if true'
-        ),
         Node(
             package='cartographer_ros',
             executable='cartographer_node',
