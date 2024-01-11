@@ -23,10 +23,14 @@ namespace turtlebot_control_panel {
       QPushButton* startLocalizationButton_;
       QPushButton* stopLocalizationButton_;
       QPushButton* saveMapButton_;
+
+      bool localizationRunning_ = false;
       
       void startLocalization_();
       void stopLocalization_();
       void saveMap_();
+
+      void findAndTerminateProcess(std::string name);
   };
 }
 

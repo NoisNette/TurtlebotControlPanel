@@ -1,5 +1,4 @@
 #include "turtlebot_control_panel/localization_section.hpp"
-#include <iostream>
 
 namespace turtlebot_control_panel {
     LocalizationSection::LocalizationSection(QWidget *parent) : QGroupBox("🗺️ | Localization", parent) {
@@ -25,15 +24,34 @@ namespace turtlebot_control_panel {
     }
 
     void LocalizationSection::startLocalization_() {
-        std::cout << "Start\n";
-        system("ros2 launch turtlebot_control_panel no_rviz.launch.py &");
+        if (localizationRunning_)
+            return;
+        localizationRunning_ = true;
+        system("ros2 launch turtlebot_control_panel cartographer.launch.py &");
     }
 
     void LocalizationSection::stopLocalization_() {
-        std::cout << "Stop\n";
+        if (!localizationRunning_)
+            return;
+        localizationRunning_ = false;
+
+        findAndTerminateProcess("turtlebot3_cartographer");
+        findAndTerminateProcess("cartographer_occupancy_grid_node");
+    }
+
+    void LocalizationSection::saveMap_() {
+        QString dir = QFileDialog::getExistingDirectory(this, tr("Save Map"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        if (dir == "")
+            return;
+
+        std::string command = "ros2 run nav2_map_server map_saver_cli -f " + dir.toStdString() + "/map";
+        system(command.c_str());
+    }
+
+    void LocalizationSection::findAndTerminateProcess(std::string name) {
         std::array<char, 128> buffer;
         std::string result;
-        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen("ps -aux | grep turtlebot3_cartographer", "r"), pclose);
+        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(("ps -aux | grep " + name).c_str(), "r"), pclose);
         if (!pipe) {
             throw std::runtime_error("popen() failed...");
         }
@@ -43,28 +61,14 @@ namespace turtlebot_control_panel {
 
         int i = 0;
         bool gotSpace = false;
-        while (!gotSpace && i < (int)result.length()) {
-            i += 1;
+        while (i < (int)result.length()) {
             if (result[i] == ' ')
                 gotSpace = true;
             else if (gotSpace)
                 break;
-        }
-        // stopLocalizationButton_->setText(std::to_string(i).c_str());
-        
-        int spaceIdx = result.find(" ", i);
-        std::string pid = result.substr(i, i+spaceIdx);
-        int len = (int) result.length();
-        stopLocalizationButton_->setText(std::to_string(len).c_str());
-    }
-
-    void LocalizationSection::saveMap_() {
-        std::cout << "Save\n";
-        QString dir = QFileDialog::getExistingDirectory(this, tr("Save Map"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-        if (dir == "")
-            return;
-
-        std::string command = "ros2 run nav2_map_server map_saver_cli -f " + dir.toStdString() + "/map";
-        system(command.c_str());
+            i += 1;
+        }        
+        std::string pid = result.substr(i, result.find(" ", i)-i);
+        system(("kill " + pid).c_str());
     }
 }
