@@ -52,12 +52,10 @@ namespace turtlebot_control_panel {
         std::array<char, 128> buffer;
         std::string result;
         std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(("ps -aux | grep " + name).c_str(), "r"), pclose);
-        if (!pipe) {
+        if (!pipe)
             throw std::runtime_error("popen() failed...");
-        }
-        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
             result += buffer.data();
-        }
 
         int i = 0;
         bool gotSpace = false;
