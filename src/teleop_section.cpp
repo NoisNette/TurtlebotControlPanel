@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace turtlebot_control_panel {
-    TeleopSection::TeleopSection(QWidget *parent) : QGroupBox("🕹️ | Teleop", parent), linearVelocity_(0.5), angularVelocity_(0.25) {
+    TeleopSection::TeleopSection(QWidget *parent) : QGroupBox("🕹️ | Teleop", parent), linearVelocity_(0.5), angularVelocity_(0.5) {
         dummy_node_ = std::make_shared<DummyNode>("teleop_dummy_node");
 
         QVBoxLayout* layout = new QVBoxLayout;
