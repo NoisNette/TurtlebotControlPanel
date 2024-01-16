@@ -40,6 +40,9 @@ namespace turtlebot_control_panel {
     }
 
     void LocalizationSection::saveMap_() {
+        if (!localizationRunning_)
+            return;
+            
         QString dir = QFileDialog::getExistingDirectory(this, tr("Save Map"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
         if (dir == "")
             return;
