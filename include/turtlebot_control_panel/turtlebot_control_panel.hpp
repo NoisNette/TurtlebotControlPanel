@@ -26,6 +26,8 @@ namespace turtlebot_control_panel {
           void onInitialize() override;
         
         private:
+          rviz_common::DisplayContext* context_;
+
           LocalizationSection* localizationSection_;
           InfoSection* infoSection_;
           TeleopSection* teleopSection_;

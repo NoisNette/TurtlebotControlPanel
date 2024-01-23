@@ -1,7 +1,10 @@
 #include "turtlebot_control_panel/localization_section.hpp"
 
 namespace turtlebot_control_panel {
-    LocalizationSection::LocalizationSection(QWidget *parent) : QGroupBox("🗺️ | Localization", parent) {
+    LocalizationSection::LocalizationSection(
+            QWidget *parent,
+            rviz_common::DisplayGroup *displayGroup
+        ) : QGroupBox("🗺️ | Localization", parent) {
         QVBoxLayout* layout = new QVBoxLayout;
 
         QHBoxLayout* startStopLayout = new QHBoxLayout;
@@ -16,6 +19,10 @@ namespace turtlebot_control_panel {
         layout->addLayout(startStopLayout);
         layout->addWidget(saveMapButton_);
 
+        map_ = displayGroup->createDisplay("rviz_default_plugins/Map");
+        map_->setName("Map");
+        displayGroup->addDisplay(map_);
+
         setLayout(layout);
 
         connect(startLocalizationButton_, &QPushButton::clicked, [this](void) { startLocalization_(); });
@@ -24,6 +31,7 @@ namespace turtlebot_control_panel {
     }
 
     void LocalizationSection::startLocalization_() {
+        // map_->setEnabled(true);
         if (localizationRunning_)
             return;
         localizationRunning_ = true;

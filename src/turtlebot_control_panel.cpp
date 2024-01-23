@@ -3,18 +3,25 @@
 namespace turtlebot_control_panel {
     TurtlebotControlPanel::TurtlebotControlPanel(QWidget* parent) : rviz_common::Panel(parent) {
         setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        QVBoxLayout* layout = new QVBoxLayout;
+        // QVBoxLayout* layout = new QVBoxLayout;
 
-        localizationSection_ = new LocalizationSection(this);
-        layout->addWidget(localizationSection_);
+        // localizationSection_ = new LocalizationSection(
+        //     this,
+        //     context_->getViewManager()->getRenderPanel(),
+        //     context_->getRosNodeAbstraction(),
+        //     context_->getWindowManager(),
+        //     context_->getClock(),
+        //     context_
+        // );
+        // layout->addWidget(localizationSection_);
 
-        infoSection_ = new InfoSection(this);
-        layout->addWidget(infoSection_);
+        // infoSection_ = new InfoSection(this);
+        // layout->addWidget(infoSection_);
 
-        teleopSection_ = new TeleopSection(this);
-        layout->addWidget(teleopSection_);
+        // teleopSection_ = new TeleopSection(this);
+        // layout->addWidget(teleopSection_);
 
-        setLayout(layout);
+        // setLayout(layout);
     }
 
     void TurtlebotControlPanel::save(rviz_common::Config config) const {
@@ -26,13 +33,36 @@ namespace turtlebot_control_panel {
     }
 
     void TurtlebotControlPanel::onInitialize() {
-        auto rviz_ros_node = this->getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();
+        context_ = this->getDisplayContext();
+
+        auto rviz_ros_node = context_->getRosNodeAbstraction().lock()->get_raw_node();
 
         this->cmdVelSubscription_ = rviz_ros_node->create_subscription<geometry_msgs::msg::Twist>(
             "/cmd_vel",
             1,
             [this](const geometry_msgs::msg::Twist::SharedPtr msg) { infoSection_->updateCmdVel_(msg); }
         );
+
+        QVBoxLayout* layout = new QVBoxLayout;
+
+        
+        localizationSection_ = new LocalizationSection(
+            this,
+            // context_->getViewManager()->getRenderPanel(),
+            // context_->getRosNodeAbstraction(),
+            // context_->getWindowManager(),
+            // context_->getClock(),
+            context_->getRootDisplayGroup()
+        );
+        layout->addWidget(localizationSection_);
+
+        infoSection_ = new InfoSection(this);
+        layout->addWidget(infoSection_);
+
+        teleopSection_ = new TeleopSection(this);
+        layout->addWidget(teleopSection_);
+
+        setLayout(layout);
     }
 }
 
