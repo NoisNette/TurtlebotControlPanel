@@ -30,7 +30,6 @@ namespace turtlebot_control_panel {
       QPushButton* stopLocalizationButton_;
       QPushButton* saveMapButton_;
 
-      rviz_common::Display* map_;
 
       bool localizationRunning_ = false;
       

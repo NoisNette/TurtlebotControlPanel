@@ -1,5 +1,4 @@
 #include "turtlebot_control_panel/teleop_section.hpp"
-#include <iostream>
 
 namespace turtlebot_control_panel {
     TeleopSection::TeleopSection(QWidget *parent) : QGroupBox("🕹️ | Teleop", parent), linearVelocity_(0.5), angularVelocity_(0.5) {

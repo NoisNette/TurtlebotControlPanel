@@ -15,6 +15,7 @@ find_package(rclcpp REQUIRED)
 find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(rviz_ogre_vendor REQUIRED)
+find_package(rviz_default_plugins REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -35,7 +36,6 @@ set(${PROJECT_NAME}_source_files
   src/localization_section.cpp
   src/info_section.cpp
   src/teleop_section.cpp
-  # src/node_runner.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED
@@ -57,11 +57,8 @@ ament_export_dependencies(
   rviz_ogre_vendor
 )
 
-# add_executable(node_runner src/node_runner.cpp)
-
 # Link ament packages
 ament_target_dependencies(${PROJECT_NAME} rclcpp rviz_common rviz_rendering geometry_msgs)
-# ament_target_dependencies(node_runner rclcpp rviz_common)
 
 # Link non ament packages
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
@@ -81,9 +78,6 @@ install(DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# install(TARGETS node_runner
-#   DESTINATION lib/${PROJECT_NAME}
-# )
 
 pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
 

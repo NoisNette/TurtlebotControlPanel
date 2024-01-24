@@ -3,25 +3,6 @@
 namespace turtlebot_control_panel {
     TurtlebotControlPanel::TurtlebotControlPanel(QWidget* parent) : rviz_common::Panel(parent) {
         setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        // QVBoxLayout* layout = new QVBoxLayout;
-
-        // localizationSection_ = new LocalizationSection(
-        //     this,
-        //     context_->getViewManager()->getRenderPanel(),
-        //     context_->getRosNodeAbstraction(),
-        //     context_->getWindowManager(),
-        //     context_->getClock(),
-        //     context_
-        // );
-        // layout->addWidget(localizationSection_);
-
-        // infoSection_ = new InfoSection(this);
-        // layout->addWidget(infoSection_);
-
-        // teleopSection_ = new TeleopSection(this);
-        // layout->addWidget(teleopSection_);
-
-        // setLayout(layout);
     }
 
     void TurtlebotControlPanel::save(rviz_common::Config config) const {
@@ -48,10 +29,6 @@ namespace turtlebot_control_panel {
         
         localizationSection_ = new LocalizationSection(
             this,
-            // context_->getViewManager()->getRenderPanel(),
-            // context_->getRosNodeAbstraction(),
-            // context_->getWindowManager(),
-            // context_->getClock(),
             context_->getRootDisplayGroup()
         );
         layout->addWidget(localizationSection_);
